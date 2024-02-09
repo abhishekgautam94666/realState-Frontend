@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useRef } from "react";
+import { Link } from "react-router-dom";
 import {
   getDownloadURL,
   getStorage,
@@ -15,6 +16,9 @@ import {
   deleteUserStart,
   deleteUserFailure,
   deleteUserSuccess,
+  signOutUserStart,
+  signOutUserFailure,
+  signOutUserSuccess,
 } from "../redux/user/userSlice.js";
 import axios from "axios";
 
@@ -27,8 +31,6 @@ const Profile = () => {
   const [formData, setFormData] = useState({});
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const dispatch = useDispatch();
-
-  console.log(formData);
 
   useEffect(() => {
     if (file) {
@@ -104,6 +106,21 @@ const Profile = () => {
     }
   };
 
+  // handle sign out ---------------
+  const handleSignOutUser = async () => {
+    try {
+      dispatch(signOutUserStart());
+      const res = await axios.get("/api/v1/users/signOut");
+      if (res.data.success === false) {
+        dispatch(signOutUserFailure(res.data.message));
+        return;
+      }
+      dispatch(signOutUserSuccess(res.data));
+    } catch (error) {
+      dispatch(signOutUserFailure(error.message));
+    }
+  };
+
   return (
     <div className="p-3 mx-auto max-w-lg">
       <h1 className="text-3xl text-center font-semibold my-7">Profile</h1>
@@ -158,6 +175,12 @@ const Profile = () => {
         <button className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-85">
           {loading ? "...Loading" : " update"}
         </button>
+        <Link
+          className="bg-green-700 text-white p-3 rounded-lg uppercase text-center hover:opacity-95"
+          to={"/create-listing"}
+        >
+          Crreate Listing
+        </Link>
       </form>
       <div className="flex justify-between p-3">
         <span
@@ -166,7 +189,12 @@ const Profile = () => {
         >
           Delete Account
         </span>
-        <span className="text-red-700 cursor-pointer">sign Out</span>
+        <span
+          onClick={handleSignOutUser}
+          className="text-red-700 cursor-pointer"
+        >
+          sign Out
+        </span>
       </div>
       <p className="text-red-700">{error ? error : ""}</p>
       <p className="text-green-700">
