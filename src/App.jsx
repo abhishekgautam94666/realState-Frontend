@@ -20,7 +20,7 @@ const App = () => {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/about" element={<About />} />
         <Route path="/search" element={<Search />} />
-        <Route path="/listing/listingId" element={<Listing />} />
+        <Route path="/listing/:listingId" element={<Listing />} />
         //protected route
         <Route element={<PrivateRoute />}>
           <Route path="/create-listing" element={<CreateListing />} />
