@@ -32,8 +32,8 @@ const Profile = () => {
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const [showListingsError, setShowListingsError] = useState(false);
   const [userListings, setUserListings] = useState([]);
-  const dispatch = useDispatch();
 
+  const dispatch = useDispatch();
   console.log(userListings);
 
   useEffect(() => {
@@ -81,7 +81,7 @@ const Profile = () => {
         formData
       );
       console.log("res:", res.data);
-      if (res.success === false) {
+      if (res.data.success === false) {
         dispatch(updateUserFailure(res.data.message));
         return;
       }
@@ -100,8 +100,7 @@ const Profile = () => {
       const res = await axios.delete(
         `/api/v1/users1/delete/${currentUser.data._id}`
       );
-      if (res.data === false) {
-        dispatch(deleteUserFailure(res.data.message));
+      if (res.data.success === false) {
         return;
       }
       dispatch(deleteUserSuccess(res.data));
@@ -141,6 +140,23 @@ const Profile = () => {
       setShowListingsError(true);
     }
   };
+
+  // ----------- listing delete ------------
+  const handleListingDelete = async (listId) => {
+    try {
+      console.log(listId);
+      const res = await axios.delete(`/api/v1/listings/delete/${listId}`);
+      if (res.data.success == false) {
+        console.log(res.data.message);
+      }
+      setUserListings((prevListings) =>
+        prevListings.filter((listing) => listing._id !== listId)
+      );
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
 
   return (
     <div className="p-3 mx-auto max-w-lg">
@@ -254,7 +270,12 @@ const Profile = () => {
                 </Link>
 
                 <div className="flex flex-col items-center">
-                  <button className="text-red-700 uppercase">Delete</button>
+                  <button
+                    onClick={() => handleListingDelete(listing._id)}
+                    className="text-red-700 uppercase"
+                  >
+                    Delete
+                  </button>
                   <button className="text-green-700 uppercase">Edit</button>
                 </div>
               </div>
