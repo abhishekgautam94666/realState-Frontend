@@ -157,7 +157,6 @@ const Profile = () => {
     }
   };
 
-
   return (
     <div className="p-3 mx-auto max-w-lg">
       <h1 className="text-3xl text-center font-semibold my-7">Profile</h1>
@@ -276,11 +275,13 @@ const Profile = () => {
                   >
                     Delete
                   </button>
-                  <button className="text-green-700 uppercase">Edit</button>
+                  <Link to={`/update-listing/${listing._id}`}>
+                    <button className="text-green-700 uppercase">Edit</button>
+                  </Link>
                 </div>
               </div>
             );
-          })}{" "}
+          })}
         </div>
       )}
     </div>

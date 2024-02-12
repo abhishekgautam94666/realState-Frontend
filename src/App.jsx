@@ -9,6 +9,7 @@ import Header from "./components/Header.jsx";
 import Profile from "./pages/Profile.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
 import CreateListing from "./pages/CreateListing.jsx";
+import UpdateListing from "./pages/UpdateListing.jsx";
 
 const App = () => {
   return (
@@ -20,10 +21,11 @@ const App = () => {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/about" element={<About />} />
         <Route path="/search" element={<Search />} />
-        <Route path="/listing/:listingId" element={<Listing />} />
+       <Route path="/listing/:listingId" element={<Listing />} />
         //protected route
         <Route element={<PrivateRoute />}>
           <Route path="/create-listing" element={<CreateListing />} />
+          <Route path="/update-listing/:listingId" element={<UpdateListing />} />
           <Route path="/profile" element={<Profile />} />
         </Route>
       </Routes>
