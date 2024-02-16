@@ -6,14 +6,16 @@ import SwiperCore from "swiper";
 import { Navigation } from "swiper/modules";
 import "swiper/css/bundle";
 import ListingItem from "../components/ListingItem";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [offerListings, setOfferListings] = useState([]);
   const [saleListings, setSaleListings] = useState([]);
   const [rentListings, setRentListings] = useState([]);
   const [error, setError] = useState(null);
-  console.log(rentListings);
   SwiperCore.use([Navigation]);
+  const navigate = useNavigate();
+
   const fetchRentListings = async () => {
     try {
       const res = await axios.get(`/api/v1/listings/get?type=rent`);
@@ -45,6 +47,18 @@ const Home = () => {
     };
     fetchOfferListings();
   }, []);
+
+  useEffect(() => {
+    const cookieCheching = async () => {
+      const res = await axios.get("/api/v1/users/checkCookie");
+      if (res.data.data === "tokenExit") {
+        return;
+      } else {
+        navigate("/sign-in");
+      }
+    };
+    cookieCheching();
+  });
 
   return (
     <div>
@@ -153,6 +167,7 @@ const Home = () => {
           </div>
         )}
       </div>
+      <p className="text-3xl font-bold text-center ">{error ? error : ""}</p>
     </div>
   );
 };
