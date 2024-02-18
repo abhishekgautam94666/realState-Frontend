@@ -34,7 +34,6 @@ const Profile = () => {
   const [userListings, setUserListings] = useState([]);
 
   const dispatch = useDispatch();
-  console.log(userListings);
 
   useEffect(() => {
     if (file) {
@@ -77,8 +76,14 @@ const Profile = () => {
     try {
       dispatch(updateUserStart());
       const res = await axios.post(
-        `/api/v1/users1/update/${currentUser.data._id}`,
-        formData
+        `https://realstate-k1g5.onrender.com/api/v1/users1/update/${currentUser.data._id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json", // Set content-type header to application/json
+          },
+          withCredentials: true,
+        }
       );
       console.log("res:", res.data);
       if (res.data.success === false) {
@@ -98,7 +103,10 @@ const Profile = () => {
     try {
       dispatch(deleteUserStart());
       const res = await axios.delete(
-        `/api/v1/users1/delete/${currentUser.data._id}`
+        `https://realstate-k1g5.onrender.com/api/v1/users1/delete/${currentUser.data._id}`,
+        {
+          withCredentials: true,
+        }
       );
       if (res.data.success === false) {
         return;
@@ -113,7 +121,12 @@ const Profile = () => {
   const handleSignOutUser = async () => {
     try {
       dispatch(signOutUserStart());
-      const res = await axios.get("/api/v1/users/signOut");
+      const res = await axios.get(
+        "https://realstate-k1g5.onrender.com/api/v1/users/signOut",
+        {
+          withCredentials: true,
+        }
+      );
       if (res.data.success === false) {
         dispatch(signOutUserFailure(res.data.message));
         return;
@@ -129,7 +142,10 @@ const Profile = () => {
     try {
       setShowListingsError(false);
       const res = await axios.get(
-        `/api/v1/listings/listing/${currentUser.data._id}`
+        `https://realstate-k1g5.onrender.com/api/v1/listings/listing/${currentUser.data._id}`,
+        {
+          withCredentials: true,
+        }
       );
       if (res.data.success == false) {
         setShowListingsError(true);
@@ -145,7 +161,12 @@ const Profile = () => {
   const handleListingDelete = async (listId) => {
     try {
       console.log(listId);
-      const res = await axios.delete(`/api/v1/listings/delete/${listId}`);
+      const res = await axios.delete(
+        `https://realstate-k1g5.onrender.com/api/v1/listings/delete/${listId}`,
+        {
+          withCredentials: true,
+        }
+      );
       if (res.data.success == false) {
         console.log(res.data.message);
       }

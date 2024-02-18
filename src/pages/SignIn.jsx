@@ -25,8 +25,17 @@ export default function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      dispatch(signInStart);
-      const res = await axios.post("/api/v1/users/signIn", formData);
+      dispatch(signInStart());
+      const res = await axios.post(
+        "https://realstate-k1g5.onrender.com/api/v1/users/signIn",
+        formData,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json", // Set content-type header to application/json
+          },
+        }
+      );
       if (res.data.success === false) {
         dispatch(signInFailure(res.data.message));
         return;

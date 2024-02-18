@@ -39,11 +39,16 @@ const UpdateListing = () => {
   useEffect(() => {
     const fetchListing = async () => {
       const listingId = params.listingId;
-      const res = await axios.get(`/api/v1/listings/get/${listingId}`);
+      const res = await axios.get(
+        `https://realstate-k1g5.onrender.com/api/v1/listings/get/${listingId}`,
+        {
+          withCredentials: true,
+        }
+      );
       if (res.data.message == false) {
         setError(res.data.message);
       }
-      setFormData(res.data.data)
+      setFormData(res.data.data);
     };
     fetchListing();
   }, []);
@@ -158,10 +163,13 @@ const UpdateListing = () => {
       setLoading(true);
       setError(false);
       const res = await axios.put(
-        `/api/v1/listings/update/${params.listingId}`,
+        `https://realstate-k1g5.onrender.com/api/v1/listings/update/${params.listingId}`,
         {
           ...formData,
           userRef: currentUser.data._id,
+        },
+        {
+          withCredentials: true,
         }
       );
       if (res.data.success === false) {

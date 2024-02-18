@@ -17,7 +17,7 @@ const CreateListing = () => {
     name: "",
     description: "",
     address: "",
-    regularPrice: 50,
+    regularPrice: 0,
     discountPrice: 0,
     bathrooms: 1,
     bedrooms: 1,
@@ -144,10 +144,19 @@ const CreateListing = () => {
         return setError("Discount price must be lower than");
       setLoading(true);
       setError(false);
-      const res = await axios.post("/api/v1/listings/create", {
-        ...formData,
-        userRef: currentUser.data._id,
-      });
+      const res = await axios.post(
+        "https://realstate-k1g5.onrender.com/api/v1/listings/create",
+        {
+          ...formData,
+          userRef: currentUser.data._id,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json", // Set content-type header to application/json
+          },
+          withCredentials: true,
+        }
+      );
       if (res.data.success === false) {
         setError(res.data.message);
       }
@@ -285,7 +294,7 @@ const CreateListing = () => {
               <input
                 type="number"
                 id="regularPrice"
-                min="50"
+                min="10"
                 max="100000"
                 required
                 className="p-3 border border-gray-300 rounded-lg"
@@ -302,7 +311,7 @@ const CreateListing = () => {
                 <input
                   type="number"
                   id="discountPrice"
-                  min="0"
+                  min="10"
                   max="100000"
                   required
                   className="p-3 border border-gray-300 rounded-lg"

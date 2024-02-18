@@ -23,7 +23,16 @@ const SignUp = () => {
 
     try {
       setLoading(true);
-      const res = await axios.post("/api/v1/users/signUp", formData);
+      const res = await axios.post(
+        "https://realstate-k1g5.onrender.com/api/v1/users/signUp",
+        formData,
+        {
+          withCredentials: true, // Disable sending credentials
+          headers: {
+            "Content-Type": "application/json", // Set content-type header to application/json
+          },
+        }
+      );
       if (res.data.success === false) {
         setError(res.data.message);
         setLoading(false);

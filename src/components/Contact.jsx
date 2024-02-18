@@ -15,7 +15,12 @@ const Contact = ({ listing }) => {
   useEffect(() => {
     const fetchLandlord = async () => {
       try {
-        const res = await axios.get(`/api/v1/users1/${listing.userRef}`);
+        const res = await axios.get(
+          `https://realstate-k1g5.onrender.com/api/v1/users1/${listing.userRef}`,
+          {
+            withCredentials: true,
+          }
+        );
         setLandloord(res.data.data);
       } catch (error) {
         console.log(error.message);

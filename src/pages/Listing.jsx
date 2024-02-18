@@ -33,7 +33,12 @@ const Listing = () => {
         setLoading(true);
         const { listingId } = params;
         console.log(listingId);
-        const res = await axios.get(`/api/v1/listings/get/${listingId}`);
+        const res = await axios.get(
+          `https://realstate-k1g5.onrender.com/api/v1/listings/get/${listingId}`,
+          {
+            withCredentials: true,
+          }
+        );
         if (res.data.success == false) {
           setError(true);
           setLoading(false);
@@ -91,10 +96,10 @@ const Listing = () => {
 
           <div className="flex flex-col max-w-4xl mx-auto p-3 my-7 gap-4">
             <p className="text-2xl font-semibold">
-              {listing.name} - ${""}
+              {listing.name} - $
               {listing.offer
-                ? listing.regularPrice.toLocaleString("en-US")
-                : listing.discountPrice.toLocaleString("en-US")}
+                ? listing.discountPrice.toLocaleString("en-US")
+                : listing.regularPrice.toLocaleString("en-US")}
               {listing.type === "rent" && " / month"}
             </p>
             <p className="flex gap-3 items-center mt-6 text-slate-600 text-sm">

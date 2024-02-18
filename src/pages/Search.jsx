@@ -54,7 +54,12 @@ const search = () => {
       setLoading(true);
       setShowMore(false);
       const searchQuery = urlParams.toString();
-      const res = await axios.get(`/api/v1/listings/get?${searchQuery}`);
+      const res = await axios.get(
+        `https://realstate-k1g5.onrender.com/api/v1/listings/get?${searchQuery}`,
+        {
+          withCredentials: true,
+        }
+      );
       if (res.data.data.length > 8) {
         setShowMore(true);
       } else {
@@ -65,7 +70,7 @@ const search = () => {
     };
 
     fetchListings();
-  },[location.search]);
+  }, [location.search]);
 
   const handleChange = (e) => {
     if (
@@ -121,7 +126,12 @@ const search = () => {
     const urlParams = new URLSearchParams(location.search);
     urlParams.set("startIndex", startIndex);
     const searchQuery = urlParams.toString();
-    const res = await axios(`/api/listing/get?${searchQuery}`);
+    const res = await axios.get(
+      `https://realstate-k1g5.onrender.com/api/listing/get?${searchQuery}`,
+      {
+        withCredentials: true,
+      }
+    );
 
     if (res.data.data.length < 9) {
       setShowMore(false);

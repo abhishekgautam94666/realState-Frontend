@@ -16,11 +16,20 @@ const OAuth = () => {
       const auth = getAuth(app);
       const result = await signInWithPopup(auth, provider);
 
-      const res = await axios.post("/api/v1/users/google", {
-        username: result.user.displayName,
-        email: result.user.email,
-        photoUrl: result.user.photoURL,
-      });
+      const res = await axios.post(
+        "https://realstate-k1g5.onrender.com/api/v1/users/google",
+        {
+          username: result.user.displayName,
+          email: result.user.email,
+          photoUrl: result.user.photoURL,
+        },
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       console.log("res :", res);
       if (res.data.success === false) {

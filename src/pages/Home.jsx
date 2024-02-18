@@ -18,7 +18,12 @@ const Home = () => {
 
   const fetchRentListings = async () => {
     try {
-      const res = await axios.get(`/api/v1/listings/get?type=rent`);
+      const res = await axios.get(
+        `https://realstate-k1g5.onrender.com/api/v1/listings/get?type=rent`,
+        {
+          withCredentials: true,
+        }
+      );
       setRentListings(res.data.data);
     } catch (error) {
       setError(error.message);
@@ -27,7 +32,12 @@ const Home = () => {
 
   const fetchSaleListings = async () => {
     try {
-      const res = await axios.get(`/api/v1/listings/get?type=sale&limit=4`);
+      const res = await axios.get(
+        `https://realstate-k1g5.onrender.com/api/v1/listings/get?type=sale&limit=4`,
+        {
+          withCredentials: true,
+        }
+      );
       setSaleListings(res.data.data);
     } catch (error) {
       setError(error.message);
@@ -37,7 +47,12 @@ const Home = () => {
   useEffect(() => {
     const fetchOfferListings = async () => {
       try {
-        const res = await axios.get(`/api/v1/listings/get?offer=true`);
+        const res = await axios.get(
+          `https://realstate-k1g5.onrender.com/api/v1/listings/get?offer=true`,
+          {
+            withCredentials: true,
+          }
+        );
         setOfferListings(res.data.data);
         fetchRentListings();
         fetchSaleListings();
@@ -50,7 +65,12 @@ const Home = () => {
 
   useEffect(() => {
     const cookieCheching = async () => {
-      const res = await axios.get("/api/v1/users/checkCookie");
+      const res = await axios.get(
+        "https://realstate-k1g5.onrender.com/api/v1/users/checkCookie",
+        {
+          withCredentials: true,
+        }
+      );
       if (res.data.data === "tokenExit") {
         return;
       } else {
@@ -86,14 +106,13 @@ const Home = () => {
         {offerListings &&
           offerListings.length > 0 &&
           offerListings.map((listing) => (
-            <SwiperSlide>
+            <SwiperSlide key={listing._id}>
               <div
                 style={{
-                  background: `url(${listing.imageUrls[1]}) center no-repeat`,
+                  background: `url(${listing.imageUrls[0]}) center no-repeat`,
                   backgroundSize: "cover",
                 }}
                 className="h-[500px]"
-                key={listing._id}
               ></div>
             </SwiperSlide>
           ))}
