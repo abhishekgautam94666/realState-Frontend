@@ -74,11 +74,12 @@ const Home = () => {
       if (res.data.data === "tokenExit") {
         return;
       } else {
-        navigate("/sign-in");
+        //navigate("/sign-in");
+        alert("Please signIn");
       }
     };
     cookieCheching();
-  });
+  }, []);
 
   return (
     <div>
