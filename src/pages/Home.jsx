@@ -6,7 +6,8 @@ import SwiperCore from "swiper";
 import { Navigation } from "swiper/modules";
 import "swiper/css/bundle";
 import ListingItem from "../components/ListingItem";
-import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { currUser } from "../redux/user/userSlice.js";
 
 const Home = () => {
   const [offerListings, setOfferListings] = useState([]);
@@ -14,7 +15,7 @@ const Home = () => {
   const [rentListings, setRentListings] = useState([]);
   const [error, setError] = useState(null);
   SwiperCore.use([Navigation]);
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const fetchRentListings = async () => {
     try {
@@ -63,22 +64,22 @@ const Home = () => {
     fetchOfferListings();
   }, []);
 
-  // useEffect(() => {
-  //   const cookieCheching = async () => {
-  //     const res = await axios.get(
-  //       "https://realstate-k1g5.onrender.com/api/v1/users/checkCookie",
-  //       {
-  //         withCredentials: true,
-  //       }
-  //     );
-  //     if (res.data.data === "tokenExit") {
-  //       return;
-  //     } else {
-  //       alert("Please signIn");
-  //     }
-  //   };
-  //   cookieCheching();
-  // }, []);
+  useEffect(() => {
+    const cookieCheching = async () => {
+      const res = await axios.get(
+        "https://realstate-k1g5.onrender.com/api/v1/users/checkCookie",
+        {
+          withCredentials: true,
+        }
+      );
+      if (res.data.data === "tokenExit") {
+        return;
+      } else {
+        dispatch(currUser());
+      }
+    };
+    cookieCheching();
+  }, []);
 
   return (
     <div>
