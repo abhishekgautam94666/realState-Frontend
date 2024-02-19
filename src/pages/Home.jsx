@@ -63,23 +63,22 @@ const Home = () => {
     fetchOfferListings();
   }, []);
 
-  useEffect(() => {
-    const cookieCheching = async () => {
-      const res = await axios.get(
-        "https://realstate-k1g5.onrender.com/api/v1/users/checkCookie",
-        {
-          withCredentials: true,
-        }
-      );
-      if (res.data.data === "tokenExit") {
-        return;
-      } else {
-        //navigate("/sign-in");
-        alert("Please signIn");
-      }
-    };
-    cookieCheching();
-  }, []);
+  // useEffect(() => {
+  //   const cookieCheching = async () => {
+  //     const res = await axios.get(
+  //       "https://realstate-k1g5.onrender.com/api/v1/users/checkCookie",
+  //       {
+  //         withCredentials: true,
+  //       }
+  //     );
+  //     if (res.data.data === "tokenExit") {
+  //       return;
+  //     } else {
+  //       alert("Please signIn");
+  //     }
+  //   };
+  //   cookieCheching();
+  // }, []);
 
   return (
     <div>
