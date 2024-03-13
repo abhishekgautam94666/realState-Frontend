@@ -33,6 +33,7 @@ const SignUp = () => {
           },
         }
       );
+      
       if (res.data.success === false) {
         setError(res.data.message);
         setLoading(false);
